@@ -53,7 +53,7 @@ public class XmlCData
         while (m.find())
         {
             XmlString = XmlString.substring(0, m.start()) +
-                '<CDataSection lt="'+lt+'" gt="'+gt+'">'+ +
+                '<CDataSection lt="'+lt+'" gt="'+gt+'">'+
                 m.group(1).replace('<', lt).replace('>',gt) +
                 '</CDataSection>'
                 +  XmlString.substring( m.end());
