@@ -9,6 +9,7 @@ public class XmlCData
    
     
     //find the best replacement string (not present in xml string). If none, build it with an as much as necessary repeated char
+    //this method should not be used if you intend to modify the content of your xml document because you can't be sure that the replacement string for < or > will not be added for itself
     public static void setReplacementStrings(String XmlString)
     {
         lt=gt=null;
@@ -45,9 +46,17 @@ public class XmlCData
     }
 
     //transform the cdata sections into regular nodes containing escaped text
-    public static String addCDataNodes(String XmlString)
+    //ltReplace and gtReplace must be chosen carefully : they must not exist neither now nor later in the XmlString or Dom.document. Use a complicated string to be sure, like ##:CDATALowerThan:## i.e.
+    //if any of ltReplace or gtReplace is null, the replacement strings will be defined by setReplacementStrings
+    public static String addCDataNodes(String XmlString, String ltReplace, String gtReplace)
     {
-        setReplacementStrings(XmlString);
+        if ((ltReplace==null) or (gtReplace==null))
+            setReplacementStrings(XmlString);   //only for a read-only purpose document !
+        else
+        {
+            /* @todo : check that ltReplace and gtReplace are not contained in XmlString, if yes, raise an error */
+            lt=ltReplace; gt = gtReplace;
+        }
         Pattern CDataSectionPattern = Pattern.compile('<!\\[CDATA\\[(.*?)\\]\\]>');
         Matcher m = CDataSectionPattern.matcher(XmlString);
         while (m.find())
