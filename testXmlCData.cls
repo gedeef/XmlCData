@@ -6,7 +6,7 @@ public class testXmlCData {
     {
         String xml = '<root><node><![CDATA[some text with some < < and some > for test purpose]]></node><othernode>with nothing special</othernode><thirdNode><![CDATA[another test text]]></thirdNode></root>';
         Dom.Document doc = new Dom.Document();
-        doc.load(XmlCData.addCDataNodes(xml));
+        doc.load(XmlCData.addCDataNodes(xml, null, null));
         System.assertEquals(doc.toXmlString().indexOf('<!CDATA['), -1);
         System.assertEquals(doc.toXmlString().indexOf('text with some <'), -1);
         System.assertEquals((doc.toXmlString().indexOf('text with some')!=-1), true);

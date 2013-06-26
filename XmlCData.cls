@@ -50,8 +50,10 @@ public class XmlCData
     //if any of ltReplace or gtReplace is null, the replacement strings will be defined by setReplacementStrings
     public static String addCDataNodes(String XmlString, String ltReplace, String gtReplace)
     {
-        if ((ltReplace==null) or (gtReplace==null))
+        if ((ltReplace==null) || (gtReplace==null))
+        {
             setReplacementStrings(XmlString);   //only for a read-only purpose document !
+        }
         else
         {
             /* @todo : check that ltReplace and gtReplace are not contained in XmlString, if yes, raise an error */
@@ -61,10 +63,9 @@ public class XmlCData
         Matcher m = CDataSectionPattern.matcher(XmlString);
         while (m.find())
         {
+            String txt = m.group(1).replace('<', lt).replace('>',gt).escapeXml();
             XmlString = XmlString.substring(0, m.start()) +
-                '<CDataSection lt="'+lt+'" gt="'+gt+'">'+
-                m.group(1).replace('<', lt).replace('>',gt) +
-                '</CDataSection>'
+                '<CDataSection lt="'+lt+'" gt="'+gt+'">'+ txt + '</CDataSection>'
                 +  XmlString.substring( m.end());
             m = CDataSectionPattern.matcher(XmlString);
         }
