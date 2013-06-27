@@ -1,7 +1,7 @@
 public class XmlCData           //not tested yet
 {
     //transform the cdata sections into regular nodes containing escaped text
-    public static String addCDataNodes(String XmlString, String ltReplace, String gtReplace)
+    public static String addCDataNodes(String XmlString)
     {
         Pattern CDataSectionPattern = Pattern.compile('<!\\[CDATA\\[(.*?)\\]\\]>');
         Matcher m = CDataSectionPattern.matcher(XmlString);
